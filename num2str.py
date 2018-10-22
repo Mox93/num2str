@@ -6,8 +6,8 @@ class Number(object):
         self.language = language
 
     def num2str(self):
-        language_map = {"En": self.num2en()}
-        return language_map.get(self.language, "En")
+        language_map = {"En": self.num2en}
+        return language_map.get(self.language, "En")()
 
     def num2en(self):
         num_map = {0: "zero", 1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight",
@@ -22,12 +22,11 @@ class Number(object):
             if phrase:
                 if phrase[-1] == "and" and x > 100:
                     del phrase[-1]
-            if len(num) - i < 3:
-                if num[i - 1] > 100 > x:
+                if num[i - 1] > 100 and all(n < 100 for n in num[i:]):
                     phrase.append("and")
 
             phrase.append(num_map.get(x, "XXX"))
-            if x == 100:
+            if x == 100 and i + 1 != len(num):
                 phrase.append("and")
         return " ".join(phrase)
 
@@ -55,7 +54,7 @@ class Number(object):
                 split_num.append(powered_num)
             if ii % 3 == 0 and ii > 0:
                 split_num.append(10 ** ii)
-        # print(split_num if split_num else [0])
+        print(split_num if split_num else [0])
         return split_num if split_num else [0]
 
     def __repr__(self):
